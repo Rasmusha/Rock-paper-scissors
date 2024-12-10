@@ -12,42 +12,32 @@ const getComputerChoice = () => {
     }
 }
 
-const playGame = () => {
-    let humanScore = 0;
-    let computerScore = 0; 
-     
-    for(i = 1; i < 6; i++) {
-        const humanSelection = getHumanChoice();
+let humanScore = 0;
+let computerScore = 0; 
+
+
+const buttons = document.querySelectorAll("button");
+
+buttons.forEach((button) => {
+    // and for each one we add a 'click' listener
+    button.addEventListener("click", () => {
+        const humanSelection = button.textContent;
         const computerSelection = getComputerChoice();
-        const result = playRound(humanSelection, computerSelection)
-        
+        const result = playRound(humanSelection, computerSelection);
+        const scores = document.querySelector("div");
+        scores.textContent = `Scores: Human ${humanScore} Computer ${computerScore}`;
 
-        if (result === 1) {
-            humanScore++
-        } else if (result === -1){
-            computerScore++
+        if(humanScore === 5) {
+            alert("You won!")
+            computerScore = 0;
+            humanScore = 0;
+        }else if (computerScore === 5) {
+            alert("You lost!");
+            computerScore = 0;
+            humanScore = 0;
         }
-        console.log("Round " + i)
-        console.log(`Your score: ${humanScore}`)
-        console.log(`Computer score: ${computerScore}`)
-    }
-
-    console.log("\nFinal Score:");
-    console.log(`Your final score: ${humanScore}`);
-    console.log(`Computer's final score: ${computerScore}`);
-
-    if (humanScore > computerScore) {
-        console.log("You win!")
-    }else if (humanScore < computerScore) {
-        console.log("You lose!")
-    }else {
-        console.log("The game is a tie!")
-    }
-}
-
-const getHumanChoice = () => prompt("Rock, paper or scissors?").toLowerCase();
-
-
+    });
+  });
 
 
 const playRound = (humanChoice, computerChoice) => {
@@ -61,16 +51,16 @@ const playRound = (humanChoice, computerChoice) => {
         (humanChoice === "scissors" &&  computerChoice === "rock")
     ) {
         console.log(`You lose! ${computerChoice} beast ${humanChoice}`);
-        return -1;
+        computerScore++;
     } else {
         console.log(`You win! ${humanChoice} beast ${computerChoice}`);
-        return 1;
+        humanScore++;
     }
 
         
 }
 
-playGame();
+
 
 
 
